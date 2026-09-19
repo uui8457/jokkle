@@ -2,11 +2,11 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport">
+    <meta content="yes" name="apple-mobile-web-app-capable">
     <!--    <link rel="apple-touch-icon" href="icon.png">-->
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="apple-mobile-web-app-title" content="Jokkle">
+    <meta content="black-translucent" name="apple-mobile-web-app-status-bar-style">
+    <meta content="Jokkle" name="apple-mobile-web-app-title">
     <title>Jokkle</title>
     <style>
         :root {
@@ -32,7 +32,8 @@
             width: 100dvw;
             margin: 0;
         }
-        .circle {
+
+        .cardSlot {
             --radius: 150px;
             border: 2pt solid black;
             border-radius: 50%;
@@ -57,19 +58,36 @@
             align-items: center;
             justify-items: center;
 
-            transform:
-                    translate(-50%, -50%)
-                    rotate(calc(var(--i) * 360deg / 7))
-                    translateY(calc(-1 * var(--radius)));
+            transform: translate(-50%, -50%) rotate(calc(var(--i) * 360deg / 7)) translateY(calc(-1 * var(--radius)));
         }
 
-        .itemSlot:nth-child(1) { --i: 0; }
-        .itemSlot:nth-child(2) { --i: 1; }
-        .itemSlot:nth-child(3) { --i: 2; }
-        .itemSlot:nth-child(4) { --i: 3; }
-        .itemSlot:nth-child(5) { --i: 4; }
-        .itemSlot:nth-child(6) { --i: 5; }
-        .itemSlot:nth-child(7) { --i: 6; }
+        .itemSlot:nth-child(1) {
+            --i: 0;
+        }
+
+        .itemSlot:nth-child(2) {
+            --i: 1;
+        }
+
+        .itemSlot:nth-child(3) {
+            --i: 2;
+        }
+
+        .itemSlot:nth-child(4) {
+            --i: 3;
+        }
+
+        .itemSlot:nth-child(5) {
+            --i: 4;
+        }
+
+        .itemSlot:nth-child(6) {
+            --i: 5;
+        }
+
+        .itemSlot:nth-child(7) {
+            --i: 6;
+        }
 
         .centerSlot {
             top: 50%;
@@ -90,20 +108,304 @@
         /*}*/
     </style>
     <script>
+        addEventListener("load", setup)
+        const cardCoordinate = {
+            A1: "🌷",
+            A2: "🎀",
+            A3: "🧠",
+            A4: "🐖",
+            A5: "🦩",
+            A6: "🩰",
+            A7: "💗",
+            A8: "🍥",
 
+            B1: "🦀",
+            B2: "🐞",
+            B3: "🍁",
+            B4: "🍄",
+            B5: "🚒",
+            B6: "🍓",
+            B7: "🧲",
+            B8: "🌹",
 
+            C1: "🌻",
+            C2: "⭐",
+            C3: "🎺",
+            C4: "🧸",
+            C5: "🦔",
+            C6: "🐥",
+            C7: "☀️",
+            C8: "💡",
+
+            D1: "🍀",
+            D2: "🐊",
+            D3: "🦎",
+            D4: "🦖",
+            D5: "🦆",
+            D6: "🔋",
+            D7: "🧪",
+            D8: "🐸",
+
+            E1: "🐟",
+            E2: "🌀",
+            E3: "❄️",
+            E4: "✈️",
+            E5: "🐋",
+            E6: "🪼",
+            E7: "🌊",
+            E8: "💎",
+
+            F1: "🦈",
+            F2: "📎",
+            F3: "👻",
+            F4: "🦴",
+            F5: "🐁",
+            F6: "🐧",
+            F7: "🦭",
+            F8: "☁️",
+
+            G1: "😴",
+            G2: "😭",
+            G3: "😜",
+            G4: "🥳",
+            G5: "🤠",
+            G6: "🥶",
+            G7: "😡",
+            G8: "🤓",
+
+            H0: "🦄"
+        }
+        const deckStructure = [
+            ["A1", "A2", "A3", "A4", "A5", "A6", "A7", "A8"],
+            ["B1", "G2", "D3", "C4", "F5", "E6", "B7", "A8"],
+            ["C1", "F2", "G3", "E4", "D5", "B6", "C7", "A8"],
+            ["D1", "E2", "C3", "G4", "B5", "F6", "D7", "A8"],
+            ["E1", "D2", "F3", "B3", "G5", "C6", "E7", "A8"],
+            ["F2", "C2", "B3", "D4", "E5", "G6", "F7", "A8"],
+            ["G1", "B2", "E3", "F4", "C5", "D6", "G7", "A8"],
+
+            ["A1", "B2", "B3", "B4", "B5", "B6", "B7", "B8"],
+            ["B1", "A2", "E3", "D4", "G5", "F6", "C7", "B8"],
+            ["C1", "G2", "A3", "F4", "E5", "C6", "D7", "B8"],
+            ["D1", "F2", "D3", "A4", "C5", "G6", "E7", "B8"],
+            ["E1", "E2", "G3", "C4", "A5", "D6", "F7", "B8"],
+            ["F1", "D2", "C3", "E4", "F5", "A6", "G7", "B8"],
+            ["G1", "C2", "F3", "G4", "D5", "E6", "A7", "B8"],
+
+            ["A1", "C2", "C3", "C4", "C5", "C6", "C7", "C8"],
+            ["B1", "B2", "F3", "E4", "A5", "G6", "D7", "C8"],
+            ["C1", "A2", "B3", "G4", "F5", "D6", "E7", "C8"],
+            ["D1", "G2", "E3", "B4", "D5", "A6", "F7", "C8"],
+            ["E1", "F2", "A3", "D4", "B5", "E6", "G7", "C8"],
+            ["F1", "E2", "D3", "F4", "G5", "B6", "A7", "C8"],
+            ["G1", "D2", "G3", "A4", "E5", "F6", "B7", "C8"],
+
+            ["A1", "D2", "D3", "D4", "D5", "D6", "D7", "D8"],
+            ["B1", "C2", "G3", "F4", "B5", "A6", "E7", "D8"],
+            ["C1", "B2", "C3", "A4", "G5", "E6", "F7", "D8"],
+            ["D1", "A2", "F3", "C4", "E5", "B6", "G7", "D8"],
+            ["E1", "G2", "B3", "E4", "C5", "F6", "A7", "D8"],
+            ["F1", "F2", "E3", "G4", "A5", "C6", "B7", "D8"],
+            ["G1", "E2", "A3", "B4", "F5", "G6", "C7", "D8"],
+
+            ["A1", "E2", "E3", "E4", "E5", "E6", "E7", "E8"],
+            ["B1", "D2", "A3", "G4", "C5", "B6", "F7", "E8"],
+            ["C1", "C2", "D3", "B4", "A5", "F6", "G7", "E8"],
+            ["D1", "B2", "G3", "D4", "F5", "C6", "A7", "E8"],
+            ["E1", "A2", "C3", "F4", "D5", "G6", "B7", "E8"],
+            ["F1", "G2", "F3", "A4", "B5", "D6", "C7", "E8"],
+            ["G1", "F2", "B3", "C4", "G5", "A6", "D7", "E8"],
+
+            ["A1", "F2", "F3", "F4", "F5", "F6", "F7", "F8"],
+            ["B1", "E2", "B3", "A4", "D5", "C6", "G7", "F8"],
+            ["C1", "D2", "E3", "C4", "B5", "G6", "A7", "F8"],
+            ["D1", "C2", "A3", "E4", "G5", "D6", "B7", "F8"],
+            ["E1", "B2", "D3", "G4", "E5", "A6", "C7", "F8"],
+            ["F1", "A2", "G3", "B4", "C5", "E6", "D7", "F8"],
+            ["G1", "G2", "C3", "D4", "A5", "B6", "E7", "F8"],
+
+            ["A1", "G2", "G3", "G4", "G5", "G6", "G7", "G8"],
+            ["B1", "F2", "C3", "B4", "E5", "D6", "A7", "G8"],
+            ["C1", "E2", "F3", "D4", "C5", "A6", "B7", "G8"],
+            ["D1", "D2", "B3", "F4", "A5", "E6", "C7", "G8"],
+            ["E1", "C2", "E3", "A4", "F5", "B6", "D7", "G8"],
+            ["F1", "B2", "A3", "C4", "D5", "F6", "E7", "G8"],
+            ["G1", "A2", "D3", "E4", "F5", "C6", "E7", "G8"],
+
+            ["A1", "B1", "C1", "D1", "E1", "F1", "G1", "H0"],
+            ["A2", "B2", "C2", "D2", "E2", "F2", "G2", "H0"],
+            ["A3", "B3", "C3", "D3", "E3", "F3", "G3", "H0"],
+            ["A4", "B4", "C4", "D4", "E4", "F4", "G4", "H0"],
+            ["A5", "B5", "C5", "D5", "E5", "F5", "G5", "H0"],
+            ["A6", "B6", "C6", "D6", "E6", "F6", "G6", "H0"],
+            ["A7", "B7", "C7", "D7", "E7", "F7", "G7", "H0"],
+            ["A8", "B8", "C8", "D8", "E8", "F8", "G8", "H0"]
+        ]
+
+        const playerCards = 5, playerCount = 2
+
+        let gameDeck = [], centerCard = [], players = []
+
+        function checkMatch() {
+            // For each card, check if there is a match with every other card. If there is not a match, report back.
+            deckStructure.forEach((card, index) => {
+                console.log("Checking card " + index)
+                if (!deckStructure.some(otherCard => otherCard.some(item => card.includes(item)))) console.log(card)
+            })
+        }
+
+        function shuffled(array) {
+            const clone = [...array];
+            for (let i = clone.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [clone[i], clone[j]] = [clone[j], clone[i]];
+            }
+            return clone;
+        }
+
+        function drawCard(fromDeck) {
+            return fromDeck.splice(-1, 1)[0]
+        }
+
+        function setup() {
+            //Shuffle deck
+            gameDeck = shuffled(deckStructure).map(card => card.map(key => cardCoordinate[key]))
+            //Draw card for center
+            centerCard = drawCard(gameDeck)
+            //Distribute cards to players
+            for (let i = 0; i < playerCount; i++) {
+                players.push(new Player(i + 1))
+                for (let j = 0; j < playerCards; j++) {
+                    players[i].deck.push(drawCard(gameDeck))
+                }
+            }
+
+            //Display center card
+            displayCard(centerCard, document.getElementById("center"))
+            //Display player cards
+            players.forEach(player => displayCard(drawCard(player.deck), player.cardSlot))
+        }
+
+        function displayCard(card, slot) { //Render the specified card in the specified location
+            const itemSlots = [...slot.children];
+            console.log(card)
+            itemSlots.forEach((slot, index) => slot.innerText = card[index])
+        }
+
+        class Player {
+            constructor(id) {
+                this.deck = []
+                //Populate the player deck
+                for (let i = 0; i < playerCards; i++) {
+                    this.deck.push(drawCard(gameDeck))
+                }
+                this.card = []
+                this.id = id
+                this.cardSlot = document.getElementById("player" + this.id)
+                // Add touch targets
+                this.itemSlots = [...this.cardSlot.children];
+                this.itemSlots.forEach(div => div.addEventListener("pointerdown", () => this.pressedItem(div)))
+            }
+
+            pressedItem(item) {
+                //check if the item pressed matches any on the center card
+                console.log(item.innerText)
+                // If it does match, place the player card in the center and draw a new card from the player deck
+                if (centerCard.some((emoji) => emoji === item.innerText)) {
+
+                }
+            }
+        }
     </script>
 </head>
 <body>
-<div id="cardTest" class="circle">
-    <div class="itemSlot"><div class="item">🌸</div></div>
-    <div class="itemSlot"><div class="item">🦀</div></div>
-    <div class="itemSlot"><div class="item">🌻</div></div>
-    <div class="itemSlot"><div class="item">🍀</div></div>
-    <div class="itemSlot"><div class="item">🐟</div></div>
-    <div class="itemSlot"><div class="item">🦈</div></div>
-    <div class="itemSlot"><div class="item">🐁</div></div>
-    <div class="itemSlot centerSlot"><div class="item">🐊</div></div>
+<div class="cardSlot" id="player1">
+    <div class="itemSlot">
+        <div class="item">🌸</div>
+    </div>
+    <div class="itemSlot">
+        <div class="item">🦀</div>
+    </div>
+    <div class="itemSlot">
+        <div class="item">🌻</div>
+    </div>
+    <div class="itemSlot">
+        <div class="item">🍀</div>
+    </div>
+    <div class="itemSlot">
+        <div class="item">🐟</div>
+    </div>
+    <div class="itemSlot">
+        <div class="item">🦈</div>
+    </div>
+    <div class="itemSlot">
+        <div class="item">🐁</div>
+    </div>
+    <div class="itemSlot centerSlot">
+        <div class="item">🐊</div>
+    </div>
 </div>
+<div class="cardSlot" id="center">
+    <div class="itemSlot">
+        <div class="item">🌸</div>
+    </div>
+    <div class="itemSlot">
+        <div class="item">🦀</div>
+    </div>
+    <div class="itemSlot">
+        <div class="item">🌻</div>
+    </div>
+    <div class="itemSlot">
+        <div class="item">🍀</div>
+    </div>
+    <div class="itemSlot">
+        <div class="item">🐟</div>
+    </div>
+    <div class="itemSlot">
+        <div class="item">🦈</div>
+    </div>
+    <div class="itemSlot">
+        <div class="item">🐁</div>
+    </div>
+    <div class="itemSlot centerSlot">
+        <div class="item">🐊</div>
+    </div>
+</div>
+<div class="cardSlot" id="player2">
+    <div class="itemSlot">
+        <div class="item">🌸</div>
+    </div>
+    <div class="itemSlot">
+        <div class="item">🦀</div>
+    </div>
+    <div class="itemSlot">
+        <div class="item">🌻</div>
+    </div>
+    <div class="itemSlot">
+        <div class="item">🍀</div>
+    </div>
+    <div class="itemSlot">
+        <div class="item">🐟</div>
+    </div>
+    <div class="itemSlot">
+        <div class="item">🦈</div>
+    </div>
+    <div class="itemSlot">
+        <div class="item">🐁</div>
+    </div>
+    <div class="itemSlot centerSlot">
+        <div class="item">🐊</div>
+    </div>
+</div>
+<!--<div class="circle" id="cardTest">-->
+<!--    <div class="itemSlot"><div class="item">🌸</div></div>-->
+<!--    <div class="itemSlot"><div class="item">🦀</div></div>-->
+<!--    <div class="itemSlot"><div class="item">🌻</div></div>-->
+<!--    <div class="itemSlot"><div class="item">🍀</div></div>-->
+<!--    <div class="itemSlot"><div class="item">🐟</div></div>-->
+<!--    <div class="itemSlot"><div class="item">🦈</div></div>-->
+<!--    <div class="itemSlot"><div class="item">🐁</div></div>-->
+<!--    <div class="itemSlot centerSlot"><div class="item">🐊</div></div>-->
+<!--</div>-->
 </body>
 </html>
