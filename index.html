@@ -11,7 +11,7 @@
     <style>
         :root {
             color-scheme: light dark;
-            font-size: max(10pt, min(4vh, 4vw));
+            font-size: max(30pt, min(4vh, 4vw));
             font-family: sans-serif;
         }
 
@@ -34,12 +34,12 @@
         }
 
         .cardSlot {
-            --radius: 150px;
+            --radius: 100px;
             border: 2pt solid black;
             border-radius: 50%;
 
             position: relative;
-            width: 400px;
+            width: 250px;
             aspect-ratio: 1;
         }
 
@@ -242,7 +242,7 @@
             ["A8", "B8", "C8", "D8", "E8", "F8", "G8", "H0"]
         ]
 
-        const playerCards = 5, playerCount = 2
+        const playerCards = 10, playerCount = 2
 
         let gameDeck = [], centerCard = [], players = []
 
@@ -263,7 +263,7 @@
             return clone;
         }
 
-        function drawCard(fromDeck) {
+        function drawCardFrom(fromDeck) {
             return fromDeck.splice(-1, 1)[0]
         }
 
@@ -271,19 +271,14 @@
             //Shuffle deck
             gameDeck = shuffled(deckStructure).map(card => card.map(key => cardCoordinate[key]))
             //Draw card for center
-            centerCard = drawCard(gameDeck)
-            //Distribute cards to players
+            centerCard = drawCardFrom(gameDeck)
+            //Create players
             for (let i = 0; i < playerCount; i++) {
                 players.push(new Player(i + 1))
-                for (let j = 0; j < playerCards; j++) {
-                    players[i].deck.push(drawCard(gameDeck))
-                }
             }
 
             //Display center card
             displayCard(centerCard, document.getElementById("center"))
-            //Display player cards
-            players.forEach(player => displayCard(drawCard(player.deck), player.cardSlot))
         }
 
         function displayCard(card, slot) { //Render the specified card in the specified location
@@ -297,14 +292,15 @@
                 this.deck = []
                 //Populate the player deck
                 for (let i = 0; i < playerCards; i++) {
-                    this.deck.push(drawCard(gameDeck))
+                    this.deck.push(drawCardFrom(gameDeck))
                 }
-                this.card = []
+                this.card = drawCardFrom(this.deck)
                 this.id = id
                 this.cardSlot = document.getElementById("player" + this.id)
                 // Add touch targets
                 this.itemSlots = [...this.cardSlot.children];
                 this.itemSlots.forEach(div => div.addEventListener("pointerdown", () => this.pressedItem(div)))
+                displayCard(this.card,this.cardSlot)
             }
 
             pressedItem(item) {
@@ -312,7 +308,15 @@
                 console.log(item.innerText)
                 // If it does match, place the player card in the center and draw a new card from the player deck
                 if (centerCard.some((emoji) => emoji === item.innerText)) {
-
+                    centerCard = this.card
+                    //Display center card
+                    displayCard(centerCard, document.getElementById("center"))
+                    //Check if player has won the game
+                    if (this.deck.length === 0) window.alert("Player "+this.id+" won!")
+                    //Draw new player card
+                    this.card = drawCardFrom(this.deck)
+                    //Display new card
+                    displayCard(this.card,this.cardSlot)
                 }
             }
         }
@@ -397,15 +401,5 @@
         <div class="item">🐊</div>
     </div>
 </div>
-<!--<div class="circle" id="cardTest">-->
-<!--    <div class="itemSlot"><div class="item">🌸</div></div>-->
-<!--    <div class="itemSlot"><div class="item">🦀</div></div>-->
-<!--    <div class="itemSlot"><div class="item">🌻</div></div>-->
-<!--    <div class="itemSlot"><div class="item">🍀</div></div>-->
-<!--    <div class="itemSlot"><div class="item">🐟</div></div>-->
-<!--    <div class="itemSlot"><div class="item">🦈</div></div>-->
-<!--    <div class="itemSlot"><div class="item">🐁</div></div>-->
-<!--    <div class="itemSlot centerSlot"><div class="item">🐊</div></div>-->
-<!--</div>-->
 </body>
 </html>
