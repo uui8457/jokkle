@@ -1,0 +1,89 @@
+
+:root {
+    color-scheme: light dark;
+    font-size: max(20pt, min(4vh, 4vw));
+    font-family: sans-serif;
+}
+
+body {
+    touch-action: manipulation;
+    -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
+    -moz-user-select: none; /* Old versions of Firefox */
+    -ms-user-select: none; /* Internet Explorer/Edge */
+    user-select: none;
+
+    position: fixed;
+    display: grid;
+    /*grid-template-rows: 20dvh 80dvh;*/
+    align-items: center;
+    justify-items: center;
+    height: 100dvh;
+    width: 100dvw;
+    margin: 0;
+}
+
+.cardSlot {
+    --radius: 100px;
+    border: 2pt solid black;
+    border-radius: 50%;
+
+    position: relative;
+    width: 250px;
+    aspect-ratio: 1;
+}
+#center {
+    pointer-events: none;
+}
+
+.itemSlot {
+    --i: 0;
+
+    position: absolute;
+    top: 50%;
+    left: 50%;
+
+    width: 60px;
+    aspect-ratio: 1;
+    border-radius: 50%;
+    /*border: 2pt solid black;*/
+    display: grid;
+    align-items: center;
+    justify-items: center;
+
+    transform: translate(-50%, -50%) rotate(calc(var(--i) * 360deg / 7)) translateY(calc(-1 * var(--radius)));
+}
+
+.itemSlot:nth-child(1) {
+    --i: 0;
+}
+
+.itemSlot:nth-child(2) {
+    --i: 1;
+}
+
+.itemSlot:nth-child(3) {
+    --i: 2;
+}
+
+.itemSlot:nth-child(4) {
+    --i: 3;
+}
+
+.itemSlot:nth-child(5) {
+    --i: 4;
+}
+
+.itemSlot:nth-child(6) {
+    --i: 5;
+}
+
+.itemSlot:nth-child(7) {
+    --i: 6;
+}
+
+.itemSlot:nth-child(8) {
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}

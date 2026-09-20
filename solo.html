@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport">
+    <meta content="yes" name="apple-mobile-web-app-capable">
+    <!--    <link rel="apple-touch-icon" href="icon.png">-->
+    <meta content="black-translucent" name="apple-mobile-web-app-status-bar-style">
+    <meta content="Single Jokkle" name="apple-mobile-web-app-title">
+    <title>Single Jokkle</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        #time, #highScores {
+            font-family: monospace;
+        }
+
+        input {
+            font-size: inherit;
+            width: 70vw;
+            max-width: 400px;
+            margin: 10pt;
+        }
+
+        #splashScreen {
+            border: none;
+
+        }
+
+        #splashScreen::backdrop {
+            background-color: black;
+        }
+    </style>
+    <script src="script.js"></script>
+    <script>
+        const playerCards = 20, playerCount = 1
+        let playerName = "", highScores = []
+        addEventListener("load", setup)
+
+        function setup() {
+            reset()
+            getLocalStorage()
+            document.getElementById("nameInput").value = playerName
+            displayScores()
+            document.getElementById("startButton").addEventListener("click", startGame)
+            document.getElementById("splashScreen").showModal()
+        }
+
+        function startGame() {
+            //Set the player name
+            playerName = document.getElementById("nameInput").value
+            // Close the splash screen
+            document.getElementById("splashScreen").close()
+            // Start the timer
+            startTimer(document.getElementById("time"))
+        }
+
+        function displayScores() { //Reads the list of highScores and displays them in order
+            const scoreContainer = document.getElementById("highScores")
+            highScores.sort((a, b) => a.time - b.time)
+            highScores.forEach((score, index) => {
+                // Only display 5 scores
+                if (index>4) return
+                // Set the symbol
+                let scoreSymbol = "▫️"
+                switch (index) {
+                    case 0:
+                        scoreSymbol = "🥇"
+                        break
+                    case 1:
+                        scoreSymbol = "🥈"
+                        break
+                    case 2:
+                        scoreSymbol = "🥉"
+                        break
+                }
+                //Create div
+                let scoreDiv = document.createElement("div")
+                scoreDiv.textContent += `${scoreSymbol}${convertTime(score.time)} ${score.name}`
+                scoreContainer.appendChild(scoreDiv)
+            })
+        }
+    </script>
+</head>
+<body>
+<dialog id="splashScreen">
+    <div id="highScores"></div>
+    <div id="inputContainer">
+        <label>
+            <input id="nameInput" type="text" placeholder="Name">
+            <input id="startButton" type="button" value="Start">
+        </label>
+    </div>
+</dialog>
+<div id="time">00:00.000</div>
+<div class="cardSlot" id="center">
+    <div class="itemSlot">
+        <div class="item">🔘</div>
+    </div>
+    <div class="itemSlot">
+        <div class="item">🔘</div>
+    </div>
+    <div class="itemSlot">
+        <div class="item">🔘</div>
+    </div>
+    <div class="itemSlot">
+        <div class="item">🔘</div>
+    </div>
+    <div class="itemSlot">
+        <div class="item">🔘</div>
+    </div>
+    <div class="itemSlot">
+        <div class="item">🔘</div>
+    </div>
+    <div class="itemSlot">
+        <div class="item">🔘</div>
+    </div>
+    <div class="itemSlot centerSlot">
+        <div class="item">🔘</div>
+    </div>
+</div>
+<div class="cardSlot" id="player1">
+    <div class="itemSlot">
+        <div class="item">🔘</div>
+    </div>
+    <div class="itemSlot">
+        <div class="item">🔘</div>
+    </div>
+    <div class="itemSlot">
+        <div class="item">🔘</div>
+    </div>
+    <div class="itemSlot">
+        <div class="item">🔘</div>
+    </div>
+    <div class="itemSlot">
+        <div class="item">🔘</div>
+    </div>
+    <div class="itemSlot">
+        <div class="item">🔘</div>
+    </div>
+    <div class="itemSlot">
+        <div class="item">🔘</div>
+    </div>
+    <div class="itemSlot centerSlot">
+        <div class="item">🔘</div>
+    </div>
+</div>
+</body>
+</html>
