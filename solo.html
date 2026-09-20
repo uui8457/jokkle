@@ -40,6 +40,7 @@
             reset()
             getLocalStorage()
             document.getElementById("nameInput").value = playerName
+            if (highScores === null) highScores = []
             displayScores()
             document.getElementById("startButton").addEventListener("click", startGame)
             document.getElementById("splashScreen").showModal()
@@ -56,6 +57,7 @@
 
         function displayScores() { //Reads the list of highScores and displays them in order
             const scoreContainer = document.getElementById("highScores")
+            if (highScores.length=== 0) return
             highScores.sort((a, b) => a.time - b.time)
             highScores.forEach((score, index) => {
                 // Only display 5 scores
