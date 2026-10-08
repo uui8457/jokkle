@@ -219,9 +219,9 @@ class Player {
         this.card.moveToSlot(this.cardSlot)
     }
 
-    pressedItem(item) {
+    async pressedItem(item) {
         //check if the item pressed matches any on the center card
-        console.log(item)
+        // console.log(item)
         // If it does match, place the player card in the center and draw a new card from the player deck
         if (centerCard.emojis.some((emoji) => emoji === item)) {
             centerCard = this.card
@@ -238,6 +238,14 @@ class Player {
             this.card = drawCard(this.deck)
             //Display new card
             this.card.moveToSlot(this.cardSlot)
+        } else { //If it does not match: play animation
+            console.log("start")
+            this.cardSlot.classList.add("spin")
+            setTimeout(()=> {
+                this.cardSlot.classList.remove("spin")
+                console.log("stop")
+                }, 500)
+
         }
     }
 }
