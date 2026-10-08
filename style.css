@@ -50,6 +50,7 @@ body {
     display: grid;
     align-items: center;
     justify-items: center;
+    font-size: 1.5em;
 
     transform: translate(-50%, -50%) rotate(calc(var(--i) * 360deg / 7)) translateY(calc(-1 * var(--radius)));
 }

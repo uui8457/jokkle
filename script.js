@@ -69,8 +69,8 @@ const deckStructure = [
     ["B1", "G2", "D3", "C4", "F5", "E6", "B7", "A8"],
     ["C1", "F2", "G3", "E4", "D5", "B6", "C7", "A8"],
     ["D1", "E2", "C3", "G4", "B5", "F6", "D7", "A8"],
-    ["E1", "D2", "F3", "B3", "G5", "C6", "E7", "A8"],
-    ["F2", "C2", "B3", "D4", "E5", "G6", "F7", "A8"],
+    ["E1", "D2", "F3", "B4", "G5", "C6", "E7", "A8"],
+    ["F1", "C2", "B3", "D4", "E5", "G6", "F7", "A8"],
     ["G1", "B2", "E3", "F4", "C5", "D6", "G7", "A8"],
 
     ["A1", "B2", "B3", "B4", "B5", "B6", "B7", "B8"],
@@ -119,7 +119,7 @@ const deckStructure = [
     ["D1", "D2", "B3", "F4", "A5", "E6", "C7", "G8"],
     ["E1", "C2", "E3", "A4", "F5", "B6", "D7", "G8"],
     ["F1", "B2", "A3", "C4", "D5", "F6", "E7", "G8"],
-    ["G1", "A2", "D3", "E4", "F5", "C6", "E7", "G8"],
+    ["G1", "A2", "D3", "E4", "B5", "C6", "F7", "G8"],
 
     ["A1", "B1", "C1", "D1", "E1", "F1", "G1", "H0"],
     ["A2", "B2", "C2", "D2", "E2", "F2", "G2", "H0"],
@@ -233,7 +233,6 @@ class Player {
                 setLocalStorage()
                 window.alert(convertTime(gameTime))
                 window.location.reload();
-
             }
             //Draw new player card
             this.card = drawCard(this.deck)
@@ -264,7 +263,7 @@ class Card {
             itemDiv.textContent = this.emojis[i]
             itemSlotDiv.appendChild(itemDiv)
             // Rotate and scale item
-            itemDiv.style.transform = `rotate(${Math.floor(Math.random() * 360)}deg) scale(${0.5 + (Math.random())})`
+            itemDiv.style.transform = `rotate(${Math.floor(Math.random() * 360)}deg) scale(${0.75 + (Math.random()*0.75)})`
         }
     }
 
